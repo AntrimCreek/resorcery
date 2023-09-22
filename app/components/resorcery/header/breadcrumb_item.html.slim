@@ -1,0 +1,8 @@
+- if link
+  li.breadcrumb-item.d-flex.align-items-center
+    = link_to label, link, class: 'text-truncate'
+- elsif active
+  li.breadcrumb-item.active.d-flex.align-items-center.text-dark
+    .fs-3.text-truncate= label
+- else
+  li.breadcrumb-item.d-flex.align-items-center= label

@@ -1,0 +1,50 @@
+.row.mb-3
+  .col
+    .border.rounded.bg-white.shadow-sm
+      table.table.table-hover.mb-0
+        thead
+          tr
+            - list_columns.each do |list_column|
+              - if list_column[:sortable] && query
+                th= sort_link(query, list_column[:sort_key], list_column[:label], { class: 'link-dark' })
+              - else
+                th= list_column[:label]
+            th.fit
+        tbody
+          - collection.each do |item|
+            tr
+            - list_columns.each do |list_column|
+              - value = item.send(list_column[:key])
+              - value = value.display_name if value&.is_a? ApplicationRecord
+              - if list_column[:link]
+                td= link_to value || '', [item], class: 'link-dark'
+              - else
+                td= value
+            td.fit
+              .d-flex.justify-content-end
+                = link_to polymorphic_path(item), class: 'btn btn-sm btn-primary ms-1', title: 'Show' do
+                  i.bi.bi-eye
+                / - if policy([item]).edit?
+                = link_to edit_polymorphic_path(item), class: 'btn btn-sm btn-secondary ms-1', title: 'Edit' do
+                  i.bi.bi-pencil
+                / - if policy([item]).destroy?
+                = link_to polymorphic_path(item), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-sm btn-danger ms-1', title: 'Delete' do
+                  i.bi.bi-trash
+        tfoot
+          tr
+            td.text-center colspan=(list_columns.count + 1)
+              small= page_entries_info collection
+    .mt-3= paginate collection, theme: 'resorcery'
+
+  - if search_inputs.present?
+    .col-auto
+      = search_form_for query do |f|
+        ul.list-group
+          - search_inputs.each do |key, args|
+            li.list-group-item.list-group-item-dark.bg-secondary
+              = render Resorcery::Search::Input.new(f, key, **args)
+              / = f.input(key, wrapper_html: { class: 'mb-0' }, **{**args, input_html: { class: 'form-control form-control-sm' }})
+          li.list-group-item.list-group-item-dark.bg-secondary.d-flex.justify-content-between.align-items-start
+            = link_to 'Reset', request.path, class: 'btn btn-sm btn-outline-light ms-1'
+            button.btn.btn-dark
+              i.bi.bi-search

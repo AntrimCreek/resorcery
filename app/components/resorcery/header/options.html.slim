@@ -1,0 +1,17 @@
+- if collection
+  / - if policy([model]).new?
+  = link_to new_polymorphic_path(model), class: 'btn btn-primary d-flex align-items-center' do
+    i.bi.bi-plus.fs-5.lh-1.me-1
+    | New #{model.name.titleize}
+- elsif ['new', 'create', 'edit', 'update'].include? action_name
+  = link_to polymorphic_path(resource), class: 'btn btn-secondary text-nowrap ms-2' do
+    | Cancel
+- elsif resource.present?
+  / - if policy([resource]).edit?
+  = link_to edit_polymorphic_path(resource), class: 'btn btn-secondary text-nowrap ms-2' do
+    i.bi.bi-pencil.fs-5.lh-1.me-1
+    | Edit #{model.model_name.singular.titleize}
+  / - if policy([resource]).destroy?
+  = link_to polymorphic_path(resource), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-danger text-nowrap ms-2' do
+    i.bi.bi-trash.fs-5.lh-1.me-1
+    | Delete #{model.model_name.singular.titleize}

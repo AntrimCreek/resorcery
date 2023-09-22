@@ -1,0 +1,8 @@
+.row.mb-3.bg-white.shadow-sm
+  .col
+    .container
+      .row
+        .col= render Resorcery::Header::Breadcrumb.new(resource:)
+        .col-auto.d-flex.flex-column.justify-content-center
+          .py-1.d-flex
+            = render Resorcery::Header::Options.new(resource:)

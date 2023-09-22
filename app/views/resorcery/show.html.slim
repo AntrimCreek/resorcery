@@ -1,0 +1,2 @@
+- content_for(:page_title) { "#{@resource.display_name} | #{resource_model.model_name.plural.titleize}" }
+= render Resorcery::Show::Attributes.new(@resource, *resource_detail_keys)

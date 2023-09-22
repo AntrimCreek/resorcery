@@ -1,0 +1,34 @@
+.border.rounded.bg-white.shadow-sm.mb-3.overflow-hidden
+  table.table.mb-0
+    colgroup
+      col.col-1
+      col
+    tbody
+      - attributes.each do |attribute|
+        - label = attribute.split('.').last.titleize
+        - label = "ID" if attribute == "id"
+        - value = resource.instance_eval(attribute)
+        tr
+          th.text-nowrap #{label}:
+          - if value.is_a? ApplicationRecord
+            td= link_to value.display_name, [value]
+          - elsif value.is_a?(ActiveStorage::Attached) && value.present?
+            td
+              - [value].flatten.each do |attachment|
+                - if attachment.image?
+                  - variant = attachment.variant(resize_to_limit: [192, 192])
+                  - if (variant.processed rescue false)
+                    div= link_to attachment, target: '_blank' do
+                      = image_tag variant
+                  - else
+                    div= link_to attachment, target: '_blank' do
+                      = attachment.filename
+                - else
+                  div= link_to attachment, target: '_blank' do
+                    = attachment.filename
+          - elsif value.is_a? ActiveRecord::Relation
+            td
+              - value.each do |record|
+                div= link_to record.try(:display_name) || record.to_s, [record]
+          - else
+            td= value

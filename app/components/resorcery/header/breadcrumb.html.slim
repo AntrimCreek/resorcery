@@ -1,0 +1,38 @@
+- if content_for?(:header_title)
+  nav
+    ol.breadcrumb.my-1= render Resorcery::Header::BreadcrumbItem.new content_for(:header_title), active: true
+- elsif resource.is_a? String
+  nav
+    ol.breadcrumb.my-1= render Resorcery::Header::BreadcrumbItem.new resource, active: true
+- elsif resource.is_a? Array
+  / ex. [['Home','/home'], ['Reports','/home/reports'], ['Popular']]
+  nav
+    ol.breadcrumb.my-1
+      - resource.each_with_index do |path, i|
+        - if path[1].present?
+          = render Resorcery::Header::BreadcrumbItem.new path[0], link: path[1]
+        - else
+          = render Resorcery::Header::BreadcrumbItem.new path[0], active: i == resource.length - 1
+- elsif resource.is_a? ActiveRecord::Relation
+  / Single-level breadcrumb, for /index views
+  nav
+    ol.breadcrumb.my-1
+      = render Resorcery::Header::BreadcrumbItem.new model.model_name.plural.titleize, active: true
+- elsif resource.is_a? ApplicationRecord
+  / Two-level breadcrumb, for individual resource views
+  nav
+    ol.breadcrumb.my-1
+      = render Resorcery::Header::BreadcrumbItem.new model.model_name.plural.titleize, link: polymorphic_path(model)
+      - if ['new', 'create'].include? action_name
+        = render Resorcery::Header::BreadcrumbItem.new "New #{model.model_name.singular.titleize}", active: true
+        / = render 'resorcery/breadcrumb_item', label: 'New', active: true
+      - elsif ['edit', 'update'].include? action_name
+        = render Resorcery::Header::BreadcrumbItem.new "Edit #{resource.display_name}", active: true
+        / = render 'resorcery/breadcrumb_item', label: resource.display_name, link: polymorphic_path(resource)
+        / = breadcrumb_item "Edit #{resource.model_name.singular.titleize}", active: true
+        / = render 'resorcery/breadcrumb_item', label: "Edit #{resource.model_name.singular.titleize}", active: true
+      - else
+        = render Resorcery::Header::BreadcrumbItem.new resource.display_name, active: true
+- else
+  nav
+    ol.breadcrumb.my-1= render Resorcery::Header::BreadcrumbItem.new controller_name.titleize, active: true

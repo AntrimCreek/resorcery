@@ -1,0 +1,11 @@
+tr
+  th.fit.text-end.py-3= form.label attribute, label
+  - if association
+    td= form.association(attribute, label: false, **args)
+  - elsif form.object.type_for_attribute(attribute).type == :datetime
+    /td.align-middle= form.datetime_local_field attribute, **args
+    td.align-middle= form.input attribute, as: :datetime, html5: true, label: false, **args
+  - elsif form.object.type_for_attribute(attribute).is_a? ActiveRecord::Enum::EnumType
+    td.align-middle= form.input(attribute, label: false, **args)
+  - else
+    td.align-middle= form.input(attribute, label: false, **args)

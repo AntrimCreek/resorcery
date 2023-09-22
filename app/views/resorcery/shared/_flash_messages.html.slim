@@ -1,0 +1,14 @@
+- flash.each do |key, value|
+  .container.text-center
+    - if key == 'alert' || key == 'error'
+      .alert.alert-dismissible.collapse.show.alert-danger
+        = raw value
+        button.btn-close type='button' data-bs-dismiss='alert'
+    - elsif key == 'warning'
+      .alert.alert-dismissible.collapse.show.alert-warning
+        = raw value
+        button.btn-close type='button' data-bs-dismiss='alert'
+    - else
+      .alert.alert-dismissible.collapse.show.alert-info
+        = raw value
+        button.btn-close type='button' data-bs-dismiss='alert'
