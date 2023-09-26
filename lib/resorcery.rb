@@ -8,6 +8,7 @@ require "resorcery/form/form_helper"
 require "resorcery/resourceable"
 require "resorcery/configuration"
 
+require "importmap-rails"
 require "view_component"
 require "ransack"
 require "kaminari"
