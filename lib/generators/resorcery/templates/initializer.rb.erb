@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 Resorcery.setup do |config|
-  # config.theme = :default
+end
 
-  # In order to detect with controllers are using Resorcery, you must load the controllers firest
-  ActionDispatch::Reloader.to_prepare do
-    Dir["#{Rails.root}/app/controllers/**/*.rb"].each { |file| require_dependency file }
+# Resorcery.controllers will be empty during initialization
+# If nav_items are to be populated automatically, that must be done after initialization
+Rails.configuration.after_initialize do
+  Resorcery.setup do |config|
+    config.nav_items += Resorcery.controller_nav_items
   end
-
-  # Nav items to be displayed in the default navigation component -- Show all Resorcery controllers by default
-  config.nav_items = ActionController::Base.descendants.select(&:resorcery?).map(&:resource_model).sort_by(&:name)
 end

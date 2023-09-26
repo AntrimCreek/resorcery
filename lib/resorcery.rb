@@ -33,6 +33,10 @@ module Resorcery
     ActionController::Base.descendants.select(&:resorcery?).sort_by(&:name)
   end
 
+  def self.controller_nav_items
+    Resorcery::NavItem.items(controllers.map { |controller| controller.resource_model_name.route_key })
+  end
+
   class Error < StandardError; end
 end
 
