@@ -1,0 +1,12 @@
+<%= field_set_tag nil, wrapper_html do %>
+  <div class="form-check">
+    <%= form.check_box attribute, input_html, checked_value, unchecked_value %>
+    <%= form.label attribute, label, label_html %>
+    <% if error? %>
+      <%= tag.div error, **error_html %>
+    <% end %>
+    <% if hint.present? %>
+      <%= tag.div hint, **hint_html %>
+    <% end %>
+  </div>
+<% end %>

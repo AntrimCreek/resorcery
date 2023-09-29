@@ -12,8 +12,6 @@ require "importmap-rails"
 require "view_component"
 require "ransack"
 require "kaminari"
-# require "simple_form"
-# require "simple_form_ransack"
 
 module Resorcery
   class << self

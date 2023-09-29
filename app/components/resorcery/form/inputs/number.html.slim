@@ -1,7 +1,0 @@
-= tag.div **wrapper_html do
-  = form.number_field attribute, input_html
-  = form.label attribute, label, label_html
-  - if error?
-    = tag.div error, **error_html
-  - if hint.present?
-    = tag.div hint, **hint_html

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      <%= [@page_title || yield(:page_title), Resorcery.configuration.app_name].compact_blank.join(" | ") %>
+    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "resorcery/application", media: "all" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="bg-light">
+    <div class="container-fluid bg-light">
+      <div class="row vh-100">
+        <div class="col-auto bg-dark mh-100 overflow-y-auto" id="sidebar">
+          <%= render Resorcery::NavigationComponent.new(Resorcery.configuration.nav_items) %>
+        </div>
+        <div class="col mh-100 overflow-y-auto">
+          <%= render Resorcery::Header::Header.new resource: @resource || @resources %>
+          <div class="container">
+            <%= render "resorcery/shared/flash_messages" %>
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

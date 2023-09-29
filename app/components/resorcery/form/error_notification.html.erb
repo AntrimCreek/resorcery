@@ -1,0 +1,9 @@
+<% if content.present? %>
+  <div class="alert alert-danger">
+    <%= content %>
+  </div>
+<% elsif message.present? %>
+  <div class="alert alert-danger">
+    <%= message %>
+  </div>
+<% end %>

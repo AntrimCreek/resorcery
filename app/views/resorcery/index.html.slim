@@ -1,7 +1,0 @@
-- content_for(:page_title) { resource_model.model_name.plural.titleize  }
-= render Resorcery::Templates::Index.new(collection: @resources, \
-                                         query: @q, \
-                                         query_params: params[:q], \
-                                         search_inputs: [], \
-                                         list_columns: resource_list_columns, \
-                                         search_inputs: resource_search_inputs)

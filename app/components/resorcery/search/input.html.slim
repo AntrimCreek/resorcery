@@ -1,9 +1,0 @@
-= form.label attribute, label, class: 'form-label text-light mb-0'
-- if data_type == :boolean
-  = form.select attribute, options_for_select([['Any', nil], ['Yes', true], ['No', false]], form.object.send(attribute)), class: 'form-select form-select-sm'
-- elsif data_type == :date
-  = form.date_field attribute, class: 'form-control form-control-sm'
-- elsif data_type == :number
-  = form.number_field attribute, class: 'form-control form-control-sm'
-- if data_type == :string
-  = form.text_field attribute, class: 'form-control form-control-sm'

@@ -1,0 +1,23 @@
+<div class="vh-100 d-flex flex-column">
+  <div class="flex-grow-1 mx-2">
+    <ul class="nav nav-pills flex-column py-3 border-top border-secondary">
+      <% nav_items&.each do |nav_item| %>
+        <% if nav_item.nil? %>
+          <li>
+            <hr/>
+          </li>
+        <% else %>
+          <% active = nav_item.controller.name == controller.class.name %>
+          <li class="nav-item text-nowrap">
+            <%= link_to nav_item.path, class: "nav-link text-white #{'active' if active}" do %>
+              <% if nav_item.icon.present? %>
+                <i class="me-2 bi">class=("bi-#{nav_item.icon}#{active ? '-fill' : ''}")</i>
+              <% end %>
+              <%= nav_item.label %>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>

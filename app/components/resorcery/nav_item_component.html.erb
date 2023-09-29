@@ -1,0 +1,8 @@
+<li class="nav-item text-nowrap">
+  <%= link_to path, class: "nav-link text-white #{'active' if active}" do %>
+    <% if icon.present? %>
+      <i class="me-2 bi">class=("bi-#{icon}#{active ? '-fill' : ''}")</i>
+    <% end %>
+    <%= label %>
+  <% end %>
+</li>

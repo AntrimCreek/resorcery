@@ -1,0 +1,53 @@
+<% if content_for?(:header_title) %>
+  <nav>
+    <ol class="breadcrumb my-1">
+      <%= render Resorcery::Header::BreadcrumbItem.new content_for(:header_title), active: true %>
+    </ol>
+  </nav>
+<% elsif resource.is_a? String %>
+  <nav>
+    <ol class="breadcrumb my-1">
+      <%= render Resorcery::Header::BreadcrumbItem.new resource, active: true %>
+    </ol>
+  </nav>
+<% elsif resource.is_a? Array %>
+  <%-# ex. [['Home','/home'], ['Reports','/home/reports'], ['Popular']] %>
+  <nav>
+    <ol class="breadcrumb my-1">
+      <% resource.each_with_index do |path, i| %>
+        <% if path[1].present? %>
+          <%= render Resorcery::Header::BreadcrumbItem.new path[0], link: path[1] %>
+        <% else %>
+          <%= render Resorcery::Header::BreadcrumbItem.new path[0], active: i == resource.length - 1 %>
+        <% end %>
+      <% end %>
+    </ol>
+  </nav>
+<% elsif resource.is_a? ActiveRecord::Relation %>
+  <%-# Single-level breadcrumb, for /index views %>
+  <nav>
+    <ol class="breadcrumb my-1">
+      <%= render Resorcery::Header::BreadcrumbItem.new model.model_name.plural.titleize, active: true %>
+    </ol>
+  </nav>
+<% elsif resource.is_a? ActiveRecord::Base %>
+  <%-# Two-level breadcrumb, for individual resource views %>
+  <nav>
+    <ol class="breadcrumb my-1">
+      <%= render Resorcery::Header::BreadcrumbItem.new model.model_name.plural.titleize, link: polymorphic_path(model) %>
+      <% if ['new', 'create'].include? action_name %>
+        <%= render Resorcery::Header::BreadcrumbItem.new "New #{model.model_name.singular.titleize}", active: true %>
+      <% elsif ['edit', 'update'].include? action_name %>
+        <%= render Resorcery::Header::BreadcrumbItem.new "Edit #{resource.display_name}", active: true %>
+      <% else %>
+        <%= render Resorcery::Header::BreadcrumbItem.new resource.display_name, active: true %>
+      <% end %>
+    </ol>
+  </nav>
+<% else %>
+  <nav>
+    <ol class="breadcrumb my-1">
+      <%= render Resorcery::Header::BreadcrumbItem.new controller_name.titleize, active: true %>
+    </ol>
+  </nav>
+<% end %>
