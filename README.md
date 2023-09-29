@@ -40,24 +40,27 @@ rails g resorcery:controller <model1> <model2> <model3>
 
 You can generate view files to customize using any of the following generators.
 
-### Generate views for one controller:
+### Generate views for a controller:
 
-This will generate the `index`, `show`, and `form` views that will override the standard template files.
-These files follow the same naming convention as standard view files, with the exception that a single `form` file may
-be used in lieu of the `new` and `edit` files. However, `new` and `edit` files will take precedence over the`form` file
-if you wish to use those instead.
+This will generate the `index.html.erb`, `show.html.erb`, and `form.html.erb` views that will override the standard
+template files. These files follow the same naming convention as standard view files, with the exception that a single
+`form.html.erb` file may be used in lieu of `new.html.erb` and `edit.html.erb`. However, `new.html.erb` and
+`edit.html.erb` files will take precedence over `form.html.erb` if you wish to use those instead.
 
 ```bash
-rails g resorcery:views <controller>
+rails g resorcery:views <resource>
 ```
+
+The `<resource>` argument can be in any understandable format, e.g. `post`, `Post`, `posts`, `PostsController`, etc.
 
 ### Generate view templates for all controllers:
 
-This will generate `index`, `show`, and `form` views in the `app/views/resorcery` directory that will be used site-wide
-As with individual controller views, you may use separate `new` and `edit` files in lieu of the single `form` file.
+This will generate the `index.html.erb`, `show.html.erb`, and `form.html.erb` views in the `app/views/resorcery`
+directory that will be used site-wide. As with views for individual controllers, you may use separate `new` and `edit`
+templates in lieu of a shared `form`.
 
 ```bash
-rails g resorcery:views:global
+rails g resorcery:views --global
 ```
 
 ### Generate view components
@@ -66,7 +69,7 @@ Resorcery uses the [ViewComponent](https://viewcomponent.org) gem to generate re
 To generate all components used by the standard view templates in the `app/components/resorcery` directory, run:
 
 ```bash
-rails g resorcery:views:components
+rails g resorcery:components
 ```
 
 ### Pagination

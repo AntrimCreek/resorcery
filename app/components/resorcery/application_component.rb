@@ -13,6 +13,12 @@ module Resorcery
       @controller_path = controller.controller_path
     end
 
+    # Override ViewComponent::Base#sidecar_files to look for component-specific templates in app/components/resorcery
+    def self.sidecar_files(extensions)
+      #   binding.break
+      Dir[File.join("app", "components", "#{virtual_path}.*{#{extensions.join(",")}}")].presence || super(extensions)
+    end
+
     protected
 
     def set_resource(resource)
