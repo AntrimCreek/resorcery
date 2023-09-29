@@ -7,7 +7,7 @@ module Resorcery
     def models
       @models ||= model_names.map do |model_name|
         model_name.singularize.classify.constantize
-      rescue NameError => e
+      rescue NameError
         log "Error: model #{model_name.singularize.classify} does not exist"
         @model_error = true
       end

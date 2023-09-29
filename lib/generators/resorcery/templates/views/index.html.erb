@@ -1,0 +1,91 @@
+<%% content_for(:page_title) { "<%= @resource_name.plural.titleize %>" } %>
+<div class="row mb-3">
+  <div class="col">
+    <div class="border rounded bg-white shadow-sm">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <%% resource_list_columns.each do |list_column| %>
+              <%% if list_column[:sortable] && @q %>
+                <th>
+                  <%%= sort_link(@q, list_column[:sort_key], list_column[:label], { class: 'link-dark' }) %>
+                </th>
+              <%% else %>
+                <th>
+                  <%%= list_column[:label] %>
+                </th>
+              <%% end %>
+            <%% end %>
+            <th class="fit"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%% @<%= @resource_name.collection %>.each do |item| %>
+            <tr></tr>
+            <%% resource_list_columns.each do |list_column| %>
+              <%% value = item.send(list_column[:key]) %>
+              <%% value = value.display_name if value&.is_a? ApplicationRecord %>
+              <%% if list_column[:link] %>
+                <td>
+                  <%%= link_to value || '', [item], class: 'link-dark' %>
+                </td>
+              <%% else %>
+                <td>
+                  <%%= value %>
+                </td>
+              <%% end %>
+            <%% end %>
+            <td class="fit">
+              <div class="d-flex justify-content-end">
+                <%%= link_to polymorphic_path(item), class: 'btn btn-sm btn-primary ms-1', title: 'Show' do %>
+                  <i class="bi bi-eye"></i>
+                <%% end %>
+                <!-- - if policy([item]).edit?
+                -->
+                <%%= link_to edit_polymorphic_path(item), class: 'btn btn-sm btn-secondary ms-1', title: 'Edit' do %>
+                  <i class="bi bi-pencil"></i>
+                <%% end %>
+                <!-- - if policy([item]).destroy?
+                -->
+                <%%= link_to polymorphic_path(item), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-sm btn-danger ms-1', title: 'Delete' do %>
+                  <i class="bi bi-trash"></i>
+                <%% end %>
+              </div>
+            </td>
+          <%% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="text-center" colspan=<%%= resource_list_columns.count + 1 %>>
+              <small>
+                <%%= page_entries_info @<%= @resource_name.collection %> %>
+              </small>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="mt-3">
+      <%%= paginate @<%= @resource_name.collection %>, theme: 'resorcery' %>
+    </div>
+  </div>
+  <%% if resource_search_inputs.present? %>
+    <div class="col-auto">
+      <%%= search_form_for @q do |f| %>
+        <ul class="list-group">
+          <%% resource_search_inputs.each do |key, args| %>
+            <li class="list-group-item list-group-item-dark bg-secondary">
+              <%%= render Resorcery::Search::Input.new(f, key, **args) %>
+            </li>
+          <%% end %>
+          <li class="list-group-item list-group-item-dark bg-secondary d-flex justify-content-between align-items-start">
+            <%%= link_to 'Reset', request.path, class: 'btn btn-sm btn-outline-light ms-1' %>
+            <button class="btn btn-dark">
+              <i class="bi bi-search"></i>
+            </button>
+          </li>
+        </ul>
+      <%% end %>
+    </div>
+  <%% end %>
+</div>
