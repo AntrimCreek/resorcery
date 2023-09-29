@@ -48,7 +48,7 @@ module Resorcery
           label = (key == :id && "ID") || (key == :display_name && model.name) || key.to_s.titleize
           link = %i[id display_name].include?(key)
           { key:, sortable:, sort_key:, label:, link: }.deep_merge(options.slice(:key, :sortable, :sort_key, :label, :link))
-        end
+        end.freeze
       end
 
       def set_detail_keys(keys = [])
@@ -72,9 +72,7 @@ module Resorcery
       end
 
       def form_fields
-        @form_fields ||= form_keys.map do |key|
-          { key: }.deep_merge(form_options[key] || {})
-        end
+        @form_fields ||= form_keys.map { |key| { key: }.deep_merge(form_options[key] || {}) }.freeze
       end
 
       class Builder

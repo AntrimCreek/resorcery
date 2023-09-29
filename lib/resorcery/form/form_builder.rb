@@ -7,8 +7,10 @@ module Resorcery
         # Treat attribute_name as optional, as long as options include a :key.
         # If attribute_name is omitted, the the options hash will have been assigned to attribute_name instead. Fix that.
         if attribute_name.is_a?(Hash)
-          options = attribute_name
+          options = attribute_name.dup
           attribute_name = nil
+        else
+          options = options.dup # Prevent modifying the original hash
         end
 
         attribute_name ||= options.delete(:key)

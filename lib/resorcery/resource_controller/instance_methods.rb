@@ -8,9 +8,9 @@ module Resorcery
         if resource_search_enabled?
           @q = resource_model.ransack(params[:q])
           @q.sorts = resource_default_sorts if @q.sorts.empty?
-          @resources = instance_variable_set("@#{resource_model.model_name.plural}", @q.result.page(params[:page]).per(params[:per_page]))
+          @resources = instance_variable_set("@#{resource_model.model_name.collection}", @q.result.page(params[:page]).per(params[:per_page]))
         else
-          @resources = instance_variable_set("@#{resource_model.model_name.plural}", resource_model.page(params[:page]).per(params[:per_page]))
+          @resources = instance_variable_set("@#{resource_model.model_name.collection}", resource_model.page(params[:page]).per(params[:per_page]))
         end
         render_action :index
       end
@@ -37,11 +37,11 @@ module Resorcery
 
         respond_to do |format|
           if @resource.save
-            format.html { redirect_to [*resource_namespace, @resource], notice: "#{@resource.display_name} was created." }
-            format.json { render :show, status: :created, location: @resource }
+            format.html { redirect_to [@resource], notice: "#{@resource.display_name} was created." }
+            # format.json { render :show, status: :created, location: @resource }
           else
             format.html { render_action :form, status: :unprocessable_entity, alternate_templates: %i[new] }
-            format.json { render json: @resource.errors, status: :unprocessable_entity }
+            # format.json { render json: @resource.errors, status: :unprocessable_entity }
           end
         end
       end
@@ -50,11 +50,11 @@ module Resorcery
       def update
         respond_to do |format|
           if @resource.update(resource_params)
-            format.html { redirect_to [*resource_namespace, @resource], notice: "#{@resource.display_name} was updated." }
-            format.json { render :show, status: :ok, location: @resource }
+            format.html { redirect_to [@resource], notice: "#{@resource.display_name} was updated." }
+            # format.json { render :show, status: :ok, location: @resource }
           else
             format.html { render_action :form, status: :unprocessable_entity, alternate_templates: %i[edit] }
-            format.json { render json: @resource.errors, status: :unprocessable_entity }
+            # format.json { render json: @resource.errors, status: :unprocessable_entity }
           end
         end
       end
@@ -63,8 +63,8 @@ module Resorcery
       def destroy
         @resource.destroy
         respond_to do |format|
-          format.html { redirect_to [*resource_namespace, resource_model], notice: "#{@resource.display_name} was deleted.", status: :see_other }
-          format.json { head :no_content }
+          format.html { redirect_to [resource_model], notice: "#{@resource.display_name} was deleted.", status: :see_other }
+          # format.json { head :no_content }
         end
       end
 
@@ -72,21 +72,19 @@ module Resorcery
 
       # Use callbacks to share common setup or constraints between actions.
       def set_resource
-        # assign_resource policy_scope(resource_model).find(params[:id] || params[:"#{resource_model.model_name.singular}_id"])
-        assign_resource resource_model.find(params[:id] || params[:"#{resource_model.model_name.singular}_id"])
+        assign_resource resource_model.find(params[:id] || params[:"#{resource_model.model_name.element}_id"])
       end
 
       def assign_resource(record)
-        @resource = instance_variable_set("@#{resource_model.model_name.singular}", record)
+        @resource = instance_variable_set("@#{resource_model.model_name.element}", record)
         # authorize @resource
       end
 
       # Only allow a list of trusted parameters through.
       def resource_params
-        # permitted_attributes(resource_model)
         # TODO: Fix this before using in production. This is a super dangerous security risk.
         resource_model.attribute_names
-        params.require(resource_model.model_name.singular).permit!
+        params.require(resource_model.model_name.element).permit!
       end
 
       def user_not_authorized

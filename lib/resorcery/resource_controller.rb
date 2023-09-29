@@ -12,7 +12,6 @@ module Resorcery
                :resource_model,
                :resource_model_name,
                :resource_default_sorts,
-               :resource_namespace,
                :resource_formats,
                :resource_list_columns,
                :resource_detail_keys,
