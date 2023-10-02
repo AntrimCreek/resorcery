@@ -7,6 +7,6 @@ end
 # If nav_items are to be populated automatically, that must be done after initialization
 Rails.configuration.after_initialize do
   Resorcery.setup do |config|
-    config.nav_items += Resorcery.controller_nav_items
+    # config.nav_items = Resorcery.controller_nav_items
   end
 end

@@ -37,7 +37,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "importmap-rails"
   spec.add_dependency "sassc-rails", ">= 2.0.0"
-  spec.add_dependency "slim", ">= 5.1"
   spec.add_dependency "view_component", ">= 3.0.0"
 
   spec.add_dependency "simple_form", "~> 5.2"

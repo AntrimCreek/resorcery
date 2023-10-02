@@ -19,11 +19,11 @@ module Resorcery
         @resource_name = ActiveModel::Name.new(nil, nil, "Resource")
       else
         # Accept resource_param in any recognizable format, e.g. "users", "User", "UsersController", etc.
-        resource = resource_param.singularize.classify.constantize
-        if resource < ActionController::Base && resource.resorcery?
-          @resource_name = resource.resource_model_name
-        elsif resource < ActiveRecord::Base
-          @resource_name = resource.model_name
+        @resource = resource_param.singularize.classify.constantize
+        if @resource < ActionController::Base && @resource.resorcery?
+          @resource_name = @resource.resource_model_name
+        elsif @resource < ActiveRecord::Base
+          @resource_name = @resource.model_name
         else
           abort "Error: unknown resource #{resource_param}"
         end

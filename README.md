@@ -203,6 +203,32 @@ A hash of inputs to use for the search form. Each key is a Ransack search predic
 
 You may hide the search fields completely by setting `search_inputs false`.
 
+## Customizing navigation
+
+Navigiation items are specified by `Resorcery.configuration.nav_items`. By default, `nav_items` are automatically created from your Resorcery controllers via the `Resorcery.controller_nav_items` convenience method. If you want to use this method in your own initializer, you'll need to specify your nav items in an `after_initialize` block as controllers will not have loaded yet during initialization. For example:
+
+```ruby
+# config/initializers/resorcery.rb
+
+Rails.configuration.after_initialize do
+  Resorcery.setup do |config|
+    config.nav_items = [:home, nil, *Resorcery.controller_nav_items]
+  end
+end
+```
+
+You may pass string or symbol shortcuts to the nav_items, or a `Resorcery::NavItem` object for more granular control. Passing `nil` will add a separator between nav items.
+
+## Mix non-resource controllers into Resorcery
+
+You might want a non-resource controller (e.g. `HomeController` or `DashboardController`) in your application. There are two main steps to this: Add your controller to the navbar, and use the `resorcery` layout in your controller.
+
+To add your controller to the navbar, you can add it to the `nav_items` config in your initializer as detailed under "Customizing navigation."
+
+To use the "resorcery" layout, add `layout "resorcery"` to your controller.
+
+To generate a sample `index` view for you controller, run `rails g resourcery:index_view <route_name>`.
+
 ## Contributing
 
 Contribution directions go here.
