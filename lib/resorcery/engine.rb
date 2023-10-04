@@ -3,11 +3,12 @@ module Resorcery
     isolate_namespace Resorcery
 
     initializer "resorcery.importmap", before: "importmap" do |app|
-      app.config.importmap.paths << Engine.root.join("config/importmap.rb")
+      app.config.importmap.paths << root.join("config/importmap.rb")
+      app.config.importmap.cache_sweepers << root.join("app/assets/javascripts")
     end
 
-    initializer "resorcery.assets.precompile" do |app|
-      app.config.assets.precompile += %w[resorcery/application.css]
+    initializer "resorcery.assets" do |app|
+      app.config.assets.precompile += %w[resorcery_manifest]
     end
   end
 end

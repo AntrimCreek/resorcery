@@ -9,6 +9,9 @@ require "resorcery/resourceable"
 require "resorcery/configuration"
 
 require "importmap-rails"
+require "turbo-rails"
+
+require "bootstrap"
 require "view_component"
 require "ransack"
 require "kaminari"
