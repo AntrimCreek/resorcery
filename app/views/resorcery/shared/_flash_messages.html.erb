@@ -1,19 +1,19 @@
 <% flash.each do |key, value| %>
   <div class="container text-center">
-    <% if key == 'alert' || key == 'error' %>
+    <% if key == "alert" || key == "error" %>
       <div class="alert alert-dismissible collapse show alert-danger">
         <%= raw value %>
-        <button class="btn-close">type='button' data-bs-dismiss='alert'</button>
+        <button class="btn-close"type="button" data-bs-dismiss="alert" />
       </div>
-    <% elsif key == 'warning' %>
+    <% elsif key == "warning" %>
       <div class="alert alert-dismissible collapse show alert-warning">
         <%= raw value %>
-        <button class="btn-close">type='button' data-bs-dismiss='alert'</button>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" />
       </div>
     <% else %>
       <div class="alert alert-dismissible collapse show alert-info">
         <%= raw value %>
-        <button class="btn-close">type='button' data-bs-dismiss='alert'</button>
+        <button class="btn-close" type="button" data-bs-dismiss="alert" />
       </div>
     <% end %>
   </div>
