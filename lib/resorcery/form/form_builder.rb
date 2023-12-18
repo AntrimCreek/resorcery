@@ -33,19 +33,23 @@ module Resorcery
         reflection = object.class.reflect_on_association(attribute_name) if field_type.nil?
         case reflection
         when ActiveRecord::Reflection::BelongsToReflection
-          options[:label] ||= attribute_name.to_s.humanize
-          options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
-          attribute_name = "#{attribute_name}_id"
           field_type = :belongs_to
         when ActiveRecord::Reflection::HasManyReflection, ActiveRecord::Reflection::HasAndBelongsToManyReflection
-          options[:label] ||= attribute_name.to_s.humanize
-          options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
-          attribute_name = "#{attribute_name.to_s.singularize}_ids"
           field_type = :has_many
         end
 
         field_type ||= (object.respond_to?("#{attribute_name}_attachment") || object.respond_to?("#{attribute_name}_attachments")).presence && :file
 
+        case field_type
+        when :belongs_to
+          options[:label] ||= attribute_name.to_s.humanize
+          options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
+          attribute_name = "#{attribute_name}_id"
+        when :has_many
+          options[:label] ||= attribute_name.to_s.humanize
+          options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
+          attribute_name = "#{attribute_name.to_s.singularize}_ids"
+        end
         component_for_field_type(field_type).new(self, attribute_name, **options).render_in(@template, &block)
       end
 
