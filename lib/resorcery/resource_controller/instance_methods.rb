@@ -8,9 +8,9 @@ module Resorcery
         if resource_search_enabled?
           @q = resource_model.ransack(params[:q])
           @q.sorts = resource_default_sorts if @q.sorts.empty?
-          @resources = instance_variable_set("@#{resource_model.model_name.collection}", @q.result.page(params[:page]).per(params[:per_page]))
+          assign_resources @q.result.page(params[:page]).per(params[:per_page])
         else
-          @resources = instance_variable_set("@#{resource_model.model_name.collection}", resource_model.page(params[:page]).per(params[:per_page]))
+          assign_resources resource_model.page(params[:page]).per(params[:per_page])
         end
         render_action :index
       end
@@ -78,6 +78,10 @@ module Resorcery
       def assign_resource(record)
         @resource = instance_variable_set("@#{resource_model.model_name.element}", record)
         # authorize @resource
+      end
+
+      def assign_resources(records)
+        @resources = instance_variable_set("@#{resource_model.model_name.collection}", records)
       end
 
       # Only allow a list of trusted parameters through.

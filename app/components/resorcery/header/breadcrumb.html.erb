@@ -1,7 +1,7 @@
 <% if content_for?(:header_title) %>
   <nav>
     <ol class="breadcrumb my-1">
-      <%= render Resorcery::Header::BreadcrumbItem.new content_for(:header_title), active: true %>
+      <%= content_for(:header_title) %>
     </ol>
   </nav>
 <% elsif resource.is_a? String %>
