@@ -86,9 +86,13 @@ module Resorcery
 
       # Only allow a list of trusted parameters through.
       def resource_params
-        # TODO: Fix this before using in production. This is a super dangerous security risk.
-        resource_model.attribute_names
-        params.require(resource_model.model_name.element).permit!
+        if respond_to?(:"#{resource_model.model_name.element}_params", true)
+          send(:"#{resource_model.model_name.element}_params")
+        else
+          # TODO: Fix this before using in production. This is a super dangerous security risk.
+          resource_model.attribute_names
+          params.require(resource_model.model_name.element).permit!
+        end
       end
 
       def user_not_authorized
