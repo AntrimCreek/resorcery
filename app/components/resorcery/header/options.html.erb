@@ -4,7 +4,7 @@
     New <%= model.name.titleize %>
   <% end %>
 <% elsif ['new', 'create', 'edit', 'update'].include? action_name %>
-  <%= link_to polymorphic_path(resource), class: 'btn btn-secondary text-nowrap ms-2' do %>
+  <%= link_to resource ? polymorphic_path(resource) : root_path, class: 'btn btn-secondary text-nowrap ms-2' do %>
     Cancel
   <% end %>
 <% elsif resource.present? %>
