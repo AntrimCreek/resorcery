@@ -5,7 +5,7 @@
       <%= prev_page_tag %>
       <% each_page do |page| %>
         <% if page.left_outer? || page.right_outer? || page.inside_window? %>
-          <span class="d-inline"><%= page_tag page %></span>
+          <%= page_tag page %>
         <% elsif !page.was_truncated? -%>
           <%= gap_tag %>
         <% end %>
