@@ -1,7 +1,7 @@
 <% content_for(:page_title) { resource_model.model_name.plural.titleize  } %>
 <div class="row mb-3">
   <div class="col">
-    <div class="border rounded bg-white shadow-sm">
+    <div class="border rounded bg-white shadow-sm overflow-hidden d-flex flex-row">
       <table class="table table-hover mb-0">
         <thead>
           <tr>
@@ -16,7 +16,11 @@
                 </th>
               <% end %>
             <% end %>
-            <th class="fit"></th>
+            <th class="d-flex justify-content-end">
+              <% if resource_search_inputs.present? %>
+                <button class="btn btn-sm bi bi-search" data-bs-toggle="collapse" data-bs-target="#search-container" />
+              <% end %>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -64,28 +68,28 @@
           </tr>
         </tfoot>
       </table>
+      <% if resource_search_inputs.present? %>
+      <div class="collapse collapse-horizontal" id="search-container">
+          <div class="bg-secondary text-white px-3 py-1" id="search">
+            <div class="d-flex justify-content-between border-bottom">
+              <h6 class="my-1">Search</h6>
+              <button class="btn text-white bi bi-x py-0 px-1" data-bs-toggle="collapse" data-bs-target="#search-container" />
+            </div>
+            <%= search_form_for @q do |f| %>
+              <% resource_search_inputs.each do |key, args| %>
+                  <%= render Resorcery::Search::Input.new(f, key, **args) %>
+              <% end %>
+              <div class="d-flex justify-content-between align-items-center py-2">
+                <%= link_to 'Reset', request.path, class: 'btn btn-sm btn-outline-light' %>
+                <button class="btn btn-dark bi bi-search" />
+              </div>
+            <% end %>
+          </div>
+      </div>
+      <% end %>
     </div>
     <div class="mt-3">
       <%= paginate @resources, theme: 'resorcery' %>
     </div>
   </div>
-  <% if resource_search_inputs.present? %>
-    <div class="col-auto">
-      <%= search_form_for @q do |f| %>
-        <ul class="list-group">
-          <% resource_search_inputs.each do |key, args| %>
-            <li class="list-group-item list-group-item-dark bg-secondary">
-              <%= render Resorcery::Search::Input.new(f, key, **args) %>
-            </li>
-          <% end %>
-          <li class="list-group-item list-group-item-dark bg-secondary d-flex justify-content-between align-items-start">
-            <%= link_to 'Reset', request.path, class: 'btn btn-sm btn-outline-light ms-1' %>
-            <button class="btn btn-dark">
-              <i class="bi bi-search"></i>
-            </button>
-          </li>
-        </ul>
-      <% end %>
-    </div>
-  <% end %>
 </div>

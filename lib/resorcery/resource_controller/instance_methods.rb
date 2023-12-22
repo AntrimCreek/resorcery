@@ -5,6 +5,7 @@ module Resorcery
     module InstanceMethods
       # GET /resources
       def index
+        # TODO: Allow scoping records
         if resource_search_enabled?
           @q = resource_model.ransack(params[:q])
           @q.sorts = resource_default_sorts if @q.sorts.empty?

@@ -1,4 +1,4 @@
-<%= form.label attribute, label, class: 'form-label text-light mb-0' %>
+<%= form.label attribute, label, class: 'form-label text-light mb-0 text-nowrap' %>
 <% if data_type == :boolean %>
   <%= form.select attribute, options_for_select([['Any', nil], ['Yes', true], ['No', false]], form.object.send(attribute)), class: 'form-select form-select-sm' %>
 <% elsif data_type == :date %>
