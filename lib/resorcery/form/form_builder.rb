@@ -44,11 +44,11 @@ module Resorcery
         when :belongs_to
           options[:label] ||= attribute_name.to_s.humanize
           options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
-          attribute_name = "#{attribute_name}_id"
+          attribute_name = reflection.foreign_key
         when :has_many
           options[:label] ||= attribute_name.to_s.humanize
           options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
-          attribute_name = "#{attribute_name.to_s.singularize}_ids"
+          attribute_name = reflection.association_foreign_key.pluralize
         end
         component_for_field_type(field_type).new(self, attribute_name, **options).render_in(@template, &block)
       end
