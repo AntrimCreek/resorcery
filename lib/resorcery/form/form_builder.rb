@@ -30,7 +30,7 @@ module Resorcery
 
         field_type ||= object.type_for_attribute(attribute_name.to_s)&.type
 
-        reflection = object.class.reflect_on_association(attribute_name) if field_type.nil?
+        reflection = object.class.reflections[attribute_name.to_s]
         case reflection
         when ActiveRecord::Reflection::BelongsToReflection
           field_type = :belongs_to
