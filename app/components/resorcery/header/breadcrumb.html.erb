@@ -4,6 +4,8 @@
       <%= content_for(:header_title) %>
     </ol>
   </nav>
+<% elsif content_for?(:header_content) %>
+  <%= content_for(:header_content) %>
 <% elsif resource.is_a? String %>
   <nav>
     <ol class="breadcrumb my-1">

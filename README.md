@@ -120,6 +120,14 @@ Page titles may be customized by either setting the `@page_title` instance varia
 Similarly, headers titles in the page header may be customized by using
 `content_for(:header_title) { <Custom title> }`
 
+For more complex HTML customizations in the header, you may use:
+
+```ruby
+content_for(:header_content) do
+  <Custom HTML>
+end
+```
+
 ## Customizing controllers
 
 You can turn any controller into a Resorcery controller by calling `resorcery <model>` in the controller class.
