@@ -1,4 +1,6 @@
-<% if collection %>
+<% if content_for?(:header_options) %>
+  <%= content_for(:header_options) %>
+<% elsif collection %>
   <%= link_to new_polymorphic_path(model), class: 'btn btn-primary d-flex align-items-center' do %>
     <i class="bi bi-plus fs-5 lh-1 me-1"></i>
     New <%= model.name.titleize %>
