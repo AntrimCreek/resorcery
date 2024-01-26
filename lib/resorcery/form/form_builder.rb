@@ -48,7 +48,7 @@ module Resorcery
         when :has_many
           options[:label] ||= attribute_name.to_s.humanize
           options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
-          attribute_name = reflection.association_foreign_key.pluralize
+          attribute_name = "#{reflection.name.to_s.singularize}_ids"
         end
         component_for_field_type(field_type).new(self, attribute_name, **options).render_in(@template, &block)
       end
