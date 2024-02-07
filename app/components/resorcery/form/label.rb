@@ -11,7 +11,6 @@ module Resorcery
         @text = text || attribute.to_s.humanize unless text == false
         @options = options.with_indifferent_access
         @for_id = options.delete(:for)
-        binding.break if attribute == :active
       end
 
       def self.default_options
