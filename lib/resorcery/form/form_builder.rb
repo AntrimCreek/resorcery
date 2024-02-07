@@ -42,15 +42,21 @@ module Resorcery
 
         case field_type
         when :belongs_to
-          options[:label] ||= attribute_name.to_s.humanize
+          options[:label] ||= attribute_name.to_s.humanize unless options[:label] == false
           options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
           attribute_name = reflection.foreign_key
         when :has_many
-          options[:label] ||= attribute_name.to_s.humanize
+          options[:label] ||= attribute_name.to_s.humanize unless options[:label] == false
           options[:collection] ||= reflection.klass.all.map { |record| [record.to_s, record.id] }
           attribute_name = "#{reflection.name.to_s.singularize}_ids"
         end
         component_for_field_type(field_type).new(self, attribute_name, **options).render_in(@template, &block)
+      end
+
+      def label(attribute_name, text = nil, options = {}, **additional_options, &block)
+        # Use options hash to maintain compatibility with Rails' form_for helper
+        options = options.merge(additional_options)
+        Label.new(self, attribute_name, text, **options).render_in(@template, &block)
       end
 
       def button(title = nil, **options, &block)

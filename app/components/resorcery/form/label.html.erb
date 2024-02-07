@@ -1,0 +1,3 @@
+<%- if text.present? %>
+  <%= tag.label text, for: for_id || field_id(form.object, attribute), **options %>
+<%- end %>
