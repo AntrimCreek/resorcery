@@ -10,6 +10,7 @@ module Resorcery
         @attribute = attribute
         @text = text || attribute.to_s.humanize unless text == false
         @options = options.with_indifferent_access
+        merge_default_options unless options[:overwrite_options]
         @for_id = options.delete(:for)
       end
 

@@ -55,7 +55,7 @@ module Resorcery
 
       def label(attribute_name, text = nil, options = {}, **additional_options, &block)
         # Use options hash to maintain compatibility with Rails' form_for helper
-        options = options.merge(additional_options)
+        options = options.merge(additional_options).with_indifferent_access
         Label.new(self, attribute_name, text, **options).render_in(@template, &block)
       end
 
