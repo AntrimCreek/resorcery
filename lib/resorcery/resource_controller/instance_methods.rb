@@ -110,7 +110,7 @@ module Resorcery
       end
 
       def resource_format?(format)
-        format = format.to_sym
+        format = format&.to_sym
         format = :html if format == :turbo_stream
         resource_formats.include?(format)
       end
