@@ -47,6 +47,7 @@ end
 
 ActiveSupport.on_load(:action_controller) do
   include Resorcery::ResourceController
+  helper Resorcery::ApplicationHelper
 end
 
 ActiveSupport.on_load(:action_view) do

@@ -1,21 +1,25 @@
 <% if content_for?(:header_options) %>
   <%= content_for(:header_options) %>
 <% elsif collection %>
-  <%= link_to new_polymorphic_path(model), class: 'btn btn-primary d-flex align-items-center' do %>
+  <%= link_to helpers.resource_path(model, :new), class: 'btn btn-primary d-flex align-items-center' do %>
     <i class="bi bi-plus fs-5 lh-1 me-1"></i>
     New <%= model.name.titleize %>
   <% end %>
 <% elsif ['new', 'create', 'edit', 'update'].include? action_name %>
-  <%= link_to resource ? polymorphic_path(resource) : root_path, class: 'btn btn-secondary text-nowrap ms-2' do %>
+  <%= link_to resource ? helpers.resource_path(resource) : root_path, class: 'btn btn-secondary text-nowrap ms-2' do %>
     Cancel
   <% end %>
 <% elsif resource.present? %>
-  <%= link_to edit_polymorphic_path(resource), class: 'btn btn-secondary text-nowrap ms-2' do %>
-    <i class="bi bi-pencil fs-5 lh-1 me-1"></i>
-    Edit <%= model.model_name.singular.titleize %>
+  <% if resource_route_exists?(resource, :edit) %>
+    <%= link_to helpers.resource_path(resource, :edit), class: 'btn btn-secondary text-nowrap ms-2' do %>
+      <i class="bi bi-pencil fs-5 lh-1 me-1"></i>
+      Edit <%= model.model_name.singular.titleize %>
+    <% end %>
   <% end %>
-  <%= link_to polymorphic_path(resource), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-danger text-nowrap ms-2' do %>
-    <i class="bi bi-trash fs-5 lh-1 me-1"></i>
-    Delete <%= model.model_name.singular.titleize %>
+  <% if resource_route_exists?(resource, :destroy) %>
+    <%= link_to helpers.resource_path(resource, :destroy), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-danger text-nowrap ms-2' do %>
+      <i class="bi bi-trash fs-5 lh-1 me-1"></i>
+      Delete <%= model.model_name.singular.titleize %>
+    <% end %>
   <% end %>
 <% end %>

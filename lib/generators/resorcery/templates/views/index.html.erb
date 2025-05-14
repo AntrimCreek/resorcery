@@ -42,18 +42,20 @@
             <%% end %>
             <td class="fit">
               <div class="d-flex justify-content-end">
-                <%%= link_to polymorphic_path(item), class: 'btn btn-sm btn-primary ms-1', title: 'Show' do %>
-                  <i class="bi bi-eye"></i>
+                <%% if resource_route_exists?(item, :show) %>
+                  <%%= link_to resource_path(item), class: 'btn btn-sm btn-primary ms-1', title: 'Show' do %>
+                    <i class="bi bi-eye"></i>
+                  <%% end %>
+                <%%% end %>
+                <%% if resource_route_exists?(item, :edit) %>
+                  <%%= link_to resource_path(item, :edit), class: 'btn btn-sm btn-secondary ms-1', title: 'Edit' do %>
+                    <i class="bi bi-pencil"></i>
+                  <%% end %>
                 <%% end %>
-                <!-- - if policy([item]).edit?
-                -->
-                <%%= link_to edit_polymorphic_path(item), class: 'btn btn-sm btn-secondary ms-1', title: 'Edit' do %>
-                  <i class="bi bi-pencil"></i>
-                <%% end %>
-                <!-- - if policy([item]).destroy?
-                -->
-                <%%= link_to polymorphic_path(item), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-sm btn-danger ms-1', title: 'Delete' do %>
-                  <i class="bi bi-trash"></i>
+                <%% if resource_route_exists?(item, :destroy) %>
+                  <%%= link_to resource_path(item), data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: 'btn btn-sm btn-danger ms-1', title: 'Delete' do %>
+                    <i class="bi bi-trash"></i>
+                  <%% end %>
                 <%% end %>
               </div>
             </td>
