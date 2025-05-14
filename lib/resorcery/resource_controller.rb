@@ -19,7 +19,7 @@ module Resorcery
                :resource_search_inputs,
                :resource_search_enabled?,
                to: :class
-      before_action :set_resource, only: %i[show edit update destroy].filter { respond_to?(_1) }, if: :resorcery?
+      before_action :set_resource_if_applicable, if: :resorcery?
       before_action :verify_format, if: :resorcery?
     end
   end

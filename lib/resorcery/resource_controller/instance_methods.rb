@@ -76,6 +76,10 @@ module Resorcery
         assign_resource resource_model.find(params[:id] || params[:"#{resource_model.model_name.element}_id"])
       end
 
+      def set_resource_if_applicable
+        set_resource if %w[show edit update destroy].include? action_name.to_s
+      end
+
       def assign_resource(record)
         @resource = instance_variable_set("@#{resource_model.model_name.element}", record)
         # authorize @resource
