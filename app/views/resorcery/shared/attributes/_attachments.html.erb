@@ -1,0 +1,24 @@
+<% attachments.each do |attachment| %>
+  <% if attachment.image? %>
+    <% variant = attachment.variant(resize_to_limit: [192, 192]) %>
+    <% if variant.try(:processed) %>
+      <div>
+        <%= link_to attachment, target: '_blank' do %>
+          <%= image_tag variant %>
+        <% end %>
+      </div>
+    <% else %>
+      <div>
+        <%= link_to attachment, target: '_blank' do %>
+          <%= attachment.filename %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div>
+      <%= link_to attachment, target: '_blank' do %>
+        <%= attachment.filename %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -28,15 +28,15 @@
           <%% @<%= @resource_name.collection %>.each do |item| %>
             <tr></tr>
             <%% resource_list_columns.each do |list_column| %>
-              <%% value = item.send(list_column[:key]) %>
-              <%% value = value.display_name if value&.is_a? ApplicationRecord %>
               <%% if list_column[:link] %>
                 <td>
-                  <%%= link_to value || '', [item], class: 'link-dark' %>
+                  <%%= link_to [item], class: 'link-dark' do %>
+                    <%%= resource_attribute_value(item, list_column[:key]) %>
+                  <%% end %>
                 </td>
               <%% else %>
                 <td>
-                  <%%= value %>
+                  <%%= resource_attribute_value(item, list_column[:key]) %>
                 </td>
               <%% end %>
             <%% end %>

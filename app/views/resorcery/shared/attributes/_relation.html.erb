@@ -1,0 +1,3 @@
+<% relation.each do |record| %>
+  <div><%= link_to record.display_name || record.to_s, [record] %></div>
+<% end %>

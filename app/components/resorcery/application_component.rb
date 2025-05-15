@@ -2,6 +2,7 @@
 
 module Resorcery
   class ApplicationComponent < ViewComponent::Base
+    include Resorcery::ApplicationHelper
     # Controller attributes
     attr_reader :action_name, :controller_name, :controller_path
     # Resource attributes

@@ -9,53 +9,9 @@
       <% resource_detail_keys.map(&:to_s).each do |key| %>
         <% label = key.split('.').last.titleize %>
         <% label = "ID" if key == "id" %>
-        <% value = @resource.instance_eval(key) %>
         <tr>
           <th class="text-nowrap"><%= label %>:</th>
-          <% if value.is_a? ActiveRecord::Base %>
-            <td>
-              <%= link_to value.display_name, [value] %>
-            </td>
-          <% elsif value.is_a?(ActiveStorage::Attached) && value.present? %>
-            <td>
-              <% [value].flatten.each do |attachment| %>
-                <% if attachment.image? %>
-                  <% variant = attachment.variant(resize_to_limit: [192, 192]) %>
-                  <% if variant.try(:processed) %>
-                    <div>
-                      <%= link_to attachment, target: '_blank' do %>
-                        <%= image_tag variant %>
-                      <% end %>
-                    </div>
-                  <% else %>
-                    <div>
-                      <%= link_to attachment, target: '_blank' do %>
-                        <%= attachment.filename %>
-                      <% end %>
-                    </div>
-                  <% end %>
-                <% else %>
-                  <div>
-                    <%= link_to attachment, target: '_blank' do %>
-                      <%= attachment.filename %>
-                    <% end %>
-                  </div>
-                <% end %>
-              <% end %>
-            </td>
-          <% elsif value.is_a? ActiveRecord::Relation %>
-            <td>
-              <% value.each do |record| %>
-                <div>
-                  <%= link_to record.try(:display_name) || record.to_s, [record] %>
-                </div>
-              <% end %>
-            </td>
-          <% else %>
-            <td>
-              <%= value %>
-            </td>
-          <% end %>
+          <td><%= resource_attribute_value(@resource, key) %></td>
         </tr>
       <% end %>
     </tbody>

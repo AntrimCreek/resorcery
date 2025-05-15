@@ -36,3 +36,6 @@ Metrics/AbcSize:
 
 Layout/LineLength:
   Max: 160
+
+Metrics/BlockNesting:
+  Enabled: false
