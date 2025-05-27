@@ -29,7 +29,7 @@
             <% resource_list_columns.each do |list_column| %>
               <% if list_column[:link] %>
                 <td>
-                  <%= link_to [item], class: 'link-dark' do %>
+                  <%= link_to [item] do %>
                     <%= resource_attribute_value(item, list_column[:key]) %>
                   <% end %>
                 </td>
