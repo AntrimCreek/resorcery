@@ -40,16 +40,3 @@ module Resorcery
 
   class Error < StandardError; end
 end
-
-ActiveSupport.on_load(:active_record) do
-  include Resorcery::Resourceable
-end
-
-ActiveSupport.on_load(:action_controller) do
-  include Resorcery::ResourceController
-  helper Resorcery::ApplicationHelper
-end
-
-ActiveSupport.on_load(:action_view) do
-  include Resorcery::Form::FormHelper
-end
