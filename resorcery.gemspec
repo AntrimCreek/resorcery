@@ -39,15 +39,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dartsass-sprockets", "~> 3.1"
 
   spec.add_dependency "importmap-rails"
-  spec.add_dependency "sassc", "~> 2.0", "< 2.4"
+  spec.add_dependency "sassc", "~> 2.0"
   spec.add_dependency "turbo-rails"
-  spec.add_dependency "view_component", ">= 3.0.0"
+  spec.add_dependency "view_component", "~> 3.0"
 
   spec.add_dependency "ransack", ">= 4.0.0"
   spec.add_dependency "simple_form_ransack", ">= 0.0.21"
 
   spec.add_dependency "kaminari", ">= 1.2"
-
-  spec.add_dependency "commonmarker", "~> 0.23.9"
-  spec.add_dependency "github-markup", "~> 4.0"
 end
